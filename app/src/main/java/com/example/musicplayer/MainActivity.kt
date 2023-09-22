@@ -23,23 +23,42 @@ class MainActivity : AppCompatActivity() {
         with(viewBinding) {
             updateButtonsState()
 
+            next.setOnClickListener {
+                isPaused = false
+                updateButtonsState()
+                MusicPlayerService.getIntent(this@MainActivity).also {
+                    it.action = Constants.ACTION.NEXT_FOREGROUND_ACTION
+                    startService(it)
+                }
+            }
+
             play.setOnClickListener {
                 isPaused = !isPaused
                 updateButtonsState()
 
-                val serviceIntent = Intent(this@MainActivity, MusicPlayerService::class.java)
-                serviceIntent.action = Constants.ACTION.START_FOREGROUND_ACTION
-                startService(serviceIntent)
+                MusicPlayerService.getIntent(this@MainActivity).also {
+                    it.action = Constants.ACTION.START_FOREGROUND_ACTION
+                    startService(it)
+                }
             }
 
             pause.setOnClickListener {
-
                 isPaused = !isPaused
                 updateButtonsState()
 
-                val serviceIntent = Intent(this@MainActivity, MusicPlayerService::class.java)
-                serviceIntent.action = Constants.ACTION.STOP_FOREGROUND_ACTION
-                startService(serviceIntent)
+                MusicPlayerService.getIntent(this@MainActivity).also {
+                    it.action = Constants.ACTION.STOP_FOREGROUND_ACTION
+                    startService(it)
+                }
+            }
+
+            previous.setOnClickListener {
+                isPaused = false
+                updateButtonsState()
+                MusicPlayerService.getIntent(this@MainActivity).also {
+                    it.action = Constants.ACTION.PREVIOUS_FOREGROUND_ACTION
+                    startService(it)
+                }
             }
         }
     }
