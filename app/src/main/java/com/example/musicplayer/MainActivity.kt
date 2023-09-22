@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val viewBinding get() = _binding!!
 
-    private var music: MediaPlayer? = null
     private var isPaused = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,20 +23,13 @@ class MainActivity : AppCompatActivity() {
         with(viewBinding) {
             updateButtonsState()
 
-            previous.setOnClickListener {
-
-            }
-
             play.setOnClickListener {
                 isPaused = !isPaused
                 updateButtonsState()
 
                 val serviceIntent = Intent(this@MainActivity, MusicPlayerService::class.java)
+                serviceIntent.action = Constants.ACTION.START_FOREGROUND_ACTION
                 startService(serviceIntent)
-            }
-
-            next.setOnClickListener {
-                updateButtonsState()
             }
 
             pause.setOnClickListener {
@@ -61,5 +53,4 @@ class MainActivity : AppCompatActivity() {
             viewBinding.pause.visibility= View.GONE
         }
     }
-
 }
